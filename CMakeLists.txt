@@ -10,7 +10,6 @@ include_directories(/usr/local/include)
 include_directories(/opt/vc/userland)
 include_directories(/usr/include/opencv2)
 include_directories(/opt/vc/src/hello_pi/libs/vgfont)
-include_directories(/home/pi/git/robidouille/raspicam_cv)
 
 link_directories(/home/pi/git/robidouille/raspicam_cv)
 link_directories(/opt/vc/lib)

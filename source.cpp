@@ -158,10 +158,6 @@ int setup(Mat src){
 	printf("angle : %.2f\n", angle);
 	printf("GRAY_MIN : %d\n", GRAY_MIN);
 
-	if (readRefImages() == -1) {
-		printf("Error reading reference symbols\n");
-		return -1;
-	}
 	return angle;
 }
 
@@ -300,6 +296,9 @@ int MyProject(IplImage *y){
         if(setup(mask)==-200)
             return -1;
     signDetection(mask.rowRange(0, mask.rows-line_x));
+    threshold(mask.rowRange(mask.rows-line_x,mask.rows), src, GRAY_MIN, GRAY_MAX, THRESH_BINARY);
+    /*<morphOps()>*/
+    erode(src, src, erodeElement);
     threshold(mask.rowRange(mask.rows-line_x,mask.rows), src, GRAY_MIN, GRAY_MAX, THRESH_BINARY);
     /*<morphOps()>*/
     erode(src, src, erodeElement);

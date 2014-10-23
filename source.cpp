@@ -114,11 +114,51 @@ int setup(Mat src){
 	printf("GRAY_MIN : %d\n", GRAY_MIN);
 	return angle;
 }
+
+void colorDetection(Mat *imgOriginal)
+{
+	Mat imgHSV;
+	cvtColor(imgOriginal, imgHSV, COLOR_BGR2HSV);
+	Mat Thresholded;
+	inRange(imgHSV, Scalar(LowH, LowS, LowV), Scalar(HighH, HighS, HighV), Thresholded);
+	Mat erodeDilateElement = getStructuringElement(MORPH_ELLIPSE, Size(5, 5));
+	
+	erode(Thresholded, Thresholded, erodeDilateElement);
+	dilate(Thresholded, Thresholded, erodeDilateElement);
+
+
+	dilate(Thresholded, Thresholded, erodeDilateElement);
+	erode(Thresholded, Thresholded, erodeDilateElement);
+
+	Moments oMoments = moments(Thresholded);
+	double dM01 = oMoments.m01;
+	double dM10 = oMoments.m10;
+	double dArea = oMoments.m00;
+
+	if (dArea > 10000)
+	{
+	        int posX = dM10 / dArea;
+	        int posY = dM01 / dArea;
+
+                int error_gap = 100;
+                Size imgSize = imgThresholded.size();
+                if (posX > ((imgSize.width/2) + error_gap/2))
+        		cout << "color: right" << endl;
+                else if (posX < ((imgSize.width/2) + error_gap/2) && posX > ((imgSize.width/2) - error_gap/2))
+                        cout << "color: stright" << endl;
+                else
+                        cout << "color: left" << endl;
+	}
+
+	imgHSV.release();
+	Thresholded.release();
+}
 int MyProject(IplImage *y){
 	mask = Mat(y);
 	if(_setup)
         if(setup(mask)==-200)
             return -1;
+    colorDetection(mask.rowRange(0, mask.rows-line_x);
     threshold(mask.rowRange(mask.rows-line_x,mask.rows), src, GRAY_MIN, GRAY_MAX, THRESH_BINARY);
     /*<morphOps()>*/
     erode(src, src, erodeElement);

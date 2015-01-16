@@ -1,5 +1,8 @@
 #include <boost/thread.hpp>
 
+#define WIDTH 640
+#define HEIGHT 360
+
 using namespace std;
 
 class Symbol {
@@ -19,6 +22,7 @@ class Follower : public Worker
 	{
 		mask = _mask;
 		follow_result = _follow_result;
+		line_x = HEIGHT / 2;
 	}
 	void operator () ()
 	{
@@ -30,7 +34,8 @@ class Follower : public Worker
 	
 	private:
 	Mat *mask;
-	Mat *follow_result;
+	int *follow_result;
+	int line_x;
 	int readRefImages() {
 		symbols.img = imread("alv.jpg", CV_LOAD_IMAGE_GRAYSCALE);
 		if (!symbols.img.data)

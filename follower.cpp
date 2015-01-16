@@ -13,8 +13,6 @@ public:
 
 };
 
-Symbol symbols;
-
 class Follower : public Worker
 {
 	public:
@@ -23,6 +21,7 @@ class Follower : public Worker
 		mask = _mask;
 		follow_result = _follow_result;
 		line_x = HEIGHT / 2;
+		readRefImages();
 	}
 	void operator () ()
 	{
@@ -40,6 +39,7 @@ class Follower : public Worker
 	Mat *mask;
 	int *follow_result;
 	int line_x;
+	Symbol symbols;
 	int readRefImages() {
 		symbols.img = imread("alv.jpg", CV_LOAD_IMAGE_GRAYSCALE);
 		if (!symbols.img.data)

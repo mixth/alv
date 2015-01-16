@@ -10,7 +10,7 @@
 #include "writer.cpp"
 #include "avoidance.cpp"
 #include "controller.cpp"
-#include "following.cpp"
+#include "follower.cpp"
 
 #define WIDTH 640
 #define HEIGHT 360

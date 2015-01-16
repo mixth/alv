@@ -29,7 +29,8 @@ class Follower : public Worker
 		while (true)
 		{
 			_locker.lock();
-			Mat temp = mask->rowRange(0, mask->rows - line_x);
+			Mat temp;
+			mask->rowRange(0, mask->rows - line_x).copyTo(temp);
 			_locker.unlock();
 			signDetection(temp);
 		}

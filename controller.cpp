@@ -21,7 +21,7 @@ class Controller : public Worker
 			}
 			else
 			{
-				uwait(200);
+				usleep(200);
 			}
 		}
 	}
@@ -29,4 +29,4 @@ class Controller : public Worker
 	private:
 	int *avoid_result;
 	int *follow_result;
-}
+};

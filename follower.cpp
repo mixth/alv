@@ -26,10 +26,13 @@ class Follower : public Worker
 	}
 	void operator () ()
 	{
-		_locker.lock();
-		Mat temp = mask->rowRange(0, mask->rows - line_x);
-		_locker.unlock();
-		signDetection(temp);
+		while (true)
+		{
+			_locker.lock();
+			Mat temp = mask->rowRange(0, mask->rows - line_x);
+			_locker.unlock();
+			signDetection(temp);
+		}
 	}
 	
 	private:

@@ -140,7 +140,7 @@ class Avoider : public Worker
 
 				thresh_callback();
 				*avoid_result = findRange();
-				cout << "avoid_result = " << *avoid_result << endl;
+				//cout << "avoid_result = " << *avoid_result << endl;
 			}
 		}
 };

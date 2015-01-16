@@ -73,6 +73,6 @@ int MyProject(IplImage *y){
 		boost::thread avoidThread (avoid);
 		boost::thread controlThread (control);
 		boost::thread followThread (follow);
-		cout << "fired avoidThread" << endl;
+		cout << "fired avoidThread, controlThread, followThread" << endl;
 	}
 }

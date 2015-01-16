@@ -23,15 +23,15 @@ static bool _setup = true;
 int GRAY_MIN;
 int avoid_result = -1;
 int follow_result = -1;
-const int GRAY_MAX = 255;
+int GRAY_MAX = 255;
 
 Mat src, mask;
-static float angle;
+float angle;
 
 boost::mutex
 Worker::_locker;
 
-Avoider avoid(&mask, &src, &avoid_result, GRAY_MIN, GRAY_MAX, angle);
+Avoider avoid(&mask, &src, &avoid_result, &GRAY_MIN, &GRAY_MAX, &angle);
 Controller control(&avoid_result, &follow_result);
 
 class Symbol {

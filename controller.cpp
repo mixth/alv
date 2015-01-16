@@ -14,14 +14,11 @@ class Controller : public Worker
 		{
 			if (*avoid_result != -1)
 			{
+				usleep(100 * 1000);
 				if (main_control(*avoid_result) < 0)
 				{
 					return;
 				}
-			}
-			else
-			{
-				usleep(200);
 			}
 		}
 	}

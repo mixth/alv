@@ -21,8 +21,8 @@ class Avoider : public Worker
 		int _IMU_TURN;
 
 
-		int GRAY_MAX, GRAY_MIN;
-		float angle;
+		int *GRAY_MAX, *GRAY_MIN;
+		float *angle;
 		Mat _255;
 		Mat erodeElement;
 		Mat dilateElement;
@@ -34,7 +34,6 @@ class Avoider : public Worker
 		Mat src;
 		int *avoid_result;
 		static boost::mutex locker;
-		
 		static bool _sort(Point pt1, Point pt2) { return (pt1.x < pt2.x); }
 		void thresh_callback(){
 			findContours(src, contours, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, Point(0, 0));
@@ -63,17 +62,18 @@ class Avoider : public Worker
 				//call IMU here
 				edge.clear();
 				float current_angle = main_compass();
-				printf("IMU %5.2f", current_angle);
+				cout << "IMU " << current_angle << endl;
+				//cout << "angle " << *angle << endl;
 				int right, left;
 				if (current_angle<0)
 					current_angle = 360 + current_angle;
-				if (angle<current_angle){
-					left = 360 - current_angle + angle;
-					right = current_angle - angle;
+				if ((*angle)<current_angle){
+					left = 360 - current_angle + (*angle);
+					right = current_angle - (*angle);
 				}
 				else{
-					left = angle - current_angle;
-					right = 360 - angle + current_angle;
+					left = (*angle) - current_angle;
+					right = 360 - (*angle) + current_angle;
 				}
 				if (right <= left && right >= _IMU_TURN)
 					return 4;
@@ -92,7 +92,7 @@ class Avoider : public Worker
 				}
 			}
 			edge.clear();
-			//    printf("%d ",(int)min);
+			printf("%d ",(int)min);
 			if (min == WIDTH) return 6;//stop
 			if (-_TURN<min && min<_TURN)return 1;//straingth
 			if (_TURN <= min)return 4;//right
@@ -101,7 +101,7 @@ class Avoider : public Worker
 		}
 		
 	public:
-		Avoider(Mat *_mask, Mat *_src, int *_avoid_result, int _GRAY_MIN, int _GRAY_MAX, float _angle)
+		Avoider(Mat *_mask, Mat *_src, int *_avoid_result, int *_GRAY_MIN, int *_GRAY_MAX, float *_angle)
 		{
 			THRESHOLD_SIZE = 50;//size of contour
 			RANGE_THRESHOLD = 100;//distance between edge of contour
@@ -125,8 +125,9 @@ class Avoider : public Worker
 			//erode(src, src, erodeElement);
 			while (true)
 			{
+
 				_locker.lock();
-				threshold(mask->rowRange(mask->rows - line_x, mask->rows), src, GRAY_MIN, GRAY_MAX, THRESH_BINARY);
+				threshold(mask->rowRange(mask->rows - line_x, mask->rows), src, *GRAY_MIN, *GRAY_MAX, THRESH_BINARY);
 				_locker.unlock();
 				
 				/*<morphOps()>*/
@@ -139,6 +140,7 @@ class Avoider : public Worker
 
 				thresh_callback();
 				*avoid_result = findRange();
+				cout << "avoid_result = " << *avoid_result << endl;
 			}
 		}
 };

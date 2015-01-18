@@ -12,13 +12,22 @@ class Controller : public Worker
 	{
 		while (true)
 		{
-			if (*avoid_result != -1)
+			if (*avoid_result != -1 && follow_result == -1) // avoid when ALV can get the avoid_result but cannot see the target
 			{
 				usleep(100 * 1000);
 				if (main_control(*avoid_result) < 0)
 				{
 					return;
 				}
+			}
+			if(*follow_result != -1) // follow when ALV can see the target
+			{
+				usleep(100 ^ 1000);
+				if(main_control(*follow_result) < 0)
+				{
+					return;
+				}
+
 			}
 		}
 	}

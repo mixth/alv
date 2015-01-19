@@ -22,6 +22,8 @@ class Follower : public Worker
 		follow_result = _follow_result;
 		line_x = HEIGHT / 2;
 		readRefImages();
+		lowerBound = WIDTH/4;
+		upperBound = WIDTH/4 * 3;
 	}
 	void operator () ()
 	{
@@ -39,6 +41,7 @@ class Follower : public Worker
 	Mat *mask;
 	int *follow_result;
 	int line_x;
+	float lowerBound, upperBound;
 	Symbol symbols;
 	int readRefImages() {
 		symbols.img = imread("alv.jpg", CV_LOAD_IMAGE_GRAYSCALE);
@@ -103,7 +106,9 @@ class Follower : public Worker
 				CV_CHAIN_APPROX_SIMPLE, Point(0, 0));
 
 		vector<Point> approxRect;
-
+		
+		int expectedOut = 0;
+		
 		for (size_t i = 0; i < contours.size(); i++) {
 			approxPolyDP(contours[i], approxRect,
 					arcLength(Mat(contours[i]), true) * 0.05, true);
@@ -190,7 +195,22 @@ class Follower : public Worker
 
 						diff = countNonZero(diffImg);
 						if (diff < minDiff) {
-							cout << "Matched";
+							cout << "Matched" << endl;
+							if (center.x <= lowerBound)
+							{
+								cout << "Follower decided to go left" << endl;
+								expectedOut = 1;
+							}
+							else if (center.x >= upperBound)
+							{
+								cout << "Follower decided to go right" << endl;
+								expectedOut = 3;
+							}
+							else
+							{
+								cout << "Follower decided to go straight" << endl;
+								expectedOut = 2;
+							}
 						}
 
 					//break;
@@ -198,6 +218,8 @@ class Follower : public Worker
 				}
 
 			}
-		}	
+		}
+
+		(*follow_result) = expectedOut;
 	}
 };

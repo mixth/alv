@@ -10,24 +10,32 @@ class Controller : public Worker
 	}
 	void operator () ()
 	{
+		int err = 0;
 		while (true)
 		{
-			if (*avoid_result != -1 && *follow_result == -1) // avoid when ALV can get the avoid_result but cannot see the target
-			{
-				usleep(100 * 1000);
-				if (main_control(*avoid_result) < 0)
+			usleep(100 * 1000);
+			if(*follow_result > 0) // follow when ALV can see the target
+			{				
+				if(follow_result == 1) // decided to go left
 				{
-					return;
+					err = main_control(5);
+				}
+				else if(follow_result == 3) // decided to go right
+				{
+					err = main_control(4);
+				}
+				else // Go straight
+				{
+					err = main_control(1);
 				}
 			}
-			else if(*follow_result != -1) // follow when ALV can see the target
+			else if (*avoid_result != -1) // avoid when ALV can get the avoid_result but cannot see the target
 			{
-				usleep(100 * 1000);
-				if(main_control(*follow_result) < 0)
-				{
-					return;
-				}
-
+				err = main_control(*avoid_result);
+			}
+			if (err < 0)
+			{
+				return;
 			}
 		}
 	}

@@ -6,11 +6,11 @@
 #include <boost/thread.hpp>
 #include "source.h"
 #include "test.cpp"
-#include "worker.cpp"
-#include "writer.cpp"
-#include "avoidance.cpp"
-#include "controller.cpp"
-#include "follower.cpp"
+#include "worker/worker.cpp"
+#include "worker/writer.cpp"
+#include "worker/avoidance.cpp"
+#include "worker/controller.cpp"
+#include "worker/follower.cpp"
 
 #define WIDTH 640
 #define HEIGHT 360

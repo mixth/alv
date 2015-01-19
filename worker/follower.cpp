@@ -41,10 +41,12 @@ class Follower : public Worker
 	Mat *mask;
 	int *follow_result;
 	int line_x;
+	const int static reasonableArea = 2500;
+	const double static matchingRatio = 0.7;
 	float lowerBound, upperBound;
 	Symbol symbols;
 	int readRefImages() {
-		symbols.img = imread("alv.jpg", CV_LOAD_IMAGE_GRAYSCALE);
+		symbols.img = imread("invader-space-invert-resize.jpg", CV_LOAD_IMAGE_GRAYSCALE);
 		if (!symbols.img.data)
 			return -1;
 		threshold(symbols.img, symbols.img, 100, 255, 0);
@@ -115,7 +117,7 @@ class Follower : public Worker
 			if (approxRect.size() == 4) {
 				float area = contourArea(contours[i]);
 
-				if (area > 2500) {
+				if (area > reasonableArea) {
 					cout << "Found reasonable size of approxPolyDP" << endl;
 					std::vector<cv::Point2f> corners;
 
@@ -194,7 +196,9 @@ class Follower : public Worker
 								noArray());
 
 						diff = countNonZero(diffImg);
-						if (diff < minDiff) {
+						double matching = (double) 1 - ((double) diff / (double) 40000);
+						cout << "matching = " << matching << endl;
+						if (matching >= matchingRatio) {
 							cout << "Matched" << endl;
 							if (center.x <= lowerBound)
 							{

@@ -31,7 +31,14 @@ class Controller : public Worker
 			}
 			else if (*avoid_result != -1) // avoid when ALV can get the avoid_result but cannot see the target
 			{
-				err = main_control(*avoid_result);
+				if (*avoid_result != 6)
+				{
+					err = main_control(*avoid_result);
+				}
+				else
+				{
+					cout << "this should be a stop from Avoider" << endl;
+				}
 			}
 			if (err < 0)
 			{

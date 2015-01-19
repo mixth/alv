@@ -16,11 +16,11 @@ class Controller : public Worker
 			usleep(100 * 1000);
 			if(*follow_result > 0) // follow when ALV can see the target
 			{				
-				if(follow_result == 1) // decided to go left
+				if(*follow_result == 1) // decided to go left
 				{
 					err = main_control(5);
 				}
-				else if(follow_result == 3) // decided to go right
+				else if(*follow_result == 3) // decided to go right
 				{
 					err = main_control(4);
 				}

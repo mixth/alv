@@ -8,7 +8,7 @@
 #include "test.cpp"
 #include "worker/worker.cpp"
 #include "worker/writer.cpp"
-#include "worker/avoidance.cpp"
+#include "worker/avoider.cpp"
 #include "worker/controller.cpp"
 #include "worker/follower.cpp"
 

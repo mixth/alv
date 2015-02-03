@@ -23,7 +23,7 @@ class Follower : public Worker
 		line_x = HEIGHT / 2;
 		readRefImages();
 		lowerBound = WIDTH/4;
-		upperBound = WIDTH/4 * 3;
+		upperBound = WIDTH/3 * 2;
 	}
 	void operator () ()
 	{
@@ -42,7 +42,7 @@ class Follower : public Worker
 	int *follow_result;
 	int line_x;
 	const int static reasonableArea = 2500;
-	const double static matchingRatio = 0.7;
+	const double static matchingRatio = 0.56;
 	float lowerBound, upperBound;
 	Symbol symbols;
 	int readRefImages() {

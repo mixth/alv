@@ -13,7 +13,7 @@ class Controller : public Worker
 		int err = 0;
 		while (true)
 		{
-			usleep(100 * 1000);
+			//usleep(50 * 1000);
 			if(*follow_result > 0) // follow when ALV can see the target
 			{				
 				if(*follow_result == 1) // decided to go left
@@ -37,7 +37,7 @@ class Controller : public Worker
 				}
 				else
 				{
-					cout << "this should be a stop from Avoider" << endl;
+					//cout << "this should be a stop from Avoider" << endl;
 				}
 			}
 			if (err < 0)

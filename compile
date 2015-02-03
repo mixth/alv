@@ -4,5 +4,5 @@ cd build
 cmake ../
 make
 cd ..
-cp alv.jpg build
+cp invader-space-invert-resize.jpg build
 

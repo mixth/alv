@@ -70,7 +70,7 @@ int MyProject(IplImage *y){
 	{
 		if (setup(mask) == -200)
 			return -1;
-		boost::thread avoidThread (avoid);
+		//boost::thread avoidThread (avoid);
 		boost::thread controlThread (control);
 		boost::thread followThread (follow);
 		cout << "fired avoidThread, controlThread, followThread" << endl;

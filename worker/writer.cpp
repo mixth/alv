@@ -15,7 +15,7 @@ class Writer : public Worker
 			_locker.lock();
 			*mask = Mat(y);
 			_locker.unlock();
-			//cout << "write new value to mask" << endl;
+			//	cout << "write new value to mask" << endl;
 			return;
 		}
 	private:

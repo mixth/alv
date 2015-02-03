@@ -60,11 +60,31 @@ int main_control(int input){
                         return -1;
         digitalWrite(1,0);digitalWrite(5,0);
         switch(input){
-                case 1:printf("straigth\n");digitalWrite(1,1);digitalWrite(5,1);break;
-                case 4:printf("right\n");digitalWrite(1,0);digitalWrite(5,1);break;
-                case 5:printf("left\n");digitalWrite(1,1);digitalWrite(5,0);break;
-                case 6:printf("stop\n");return -1;break;
+                case 1:
+			printf("straigth\n");
+			digitalWrite(1,1);
+			digitalWrite(5,1);
+			delay(100);
+			break;
+                case 4:
+			printf("right\n");
+			digitalWrite(1,0);
+			digitalWrite(5,1);
+			delay(200);
+			break;
+                case 5:
+			printf("left\n");
+			digitalWrite(1,1);
+			digitalWrite(5,0);
+			delay(200);
+			break;
+                case 6:
+			printf("stop\n");
+			return -1;
+			break;
         }
+	digitalWrite(1, 0);
+	digitalWrite(5, 0);
         return 0;
 }
 

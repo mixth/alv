@@ -33,6 +33,7 @@ class Follower : public Worker
 			Mat temp;
 			mask->rowRange(0, mask->rows - line_x).copyTo(temp);
 			_locker.unlock();
+			//cout << "Follower read from mask" << endl;
 			signDetection(temp);
 		}
 	}
@@ -225,5 +226,11 @@ class Follower : public Worker
 		}
 
 		(*follow_result) = expectedOut;
+		/*
+		if (expectedOut == 0)
+		{
+			test_save_image(input, 1);
+		}
+		*/
 	}
 };

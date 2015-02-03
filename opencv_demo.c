@@ -259,16 +259,18 @@ int main(int argc, char** argv) {
 
 
     }
-/*
+
 	mmal_port_parameter_set_boolean(camera_video_port, MMAL_PARAMETER_CAPTURE, 0);
 	vcos_sleep(5000);
-	MMAL_PARAMETER_EXPOSUREMODE_T exp_mode = {{MMAL_PARAMETER_EXPOSURE_MODE,sizeof(exp_mode)}, MMAL_PARAM_EXPOSUREMODE_OFF};
+	MMAL_PARAMETER_EXPOSUREMODE_T exp_mode = {{MMAL_PARAMETER_EXPOSURE_MODE,sizeof(exp_mode)}, MMAL_PARAM_EXPOSUREMODE_SPORTS};
 	mmal_port_parameter_set(camera->control, &exp_mode.hdr);
 /*
 	MMAL_PARAMETER_AWBMODE_T awb_mode = {{MMAL_PARAMETER_AWB_MODE, sizeof(awb_mode)}, MMAL_PARAM_AWBMODE_OFF};
 	mmal_port_parameter_set(camera->control, &awb_mode.hdr);
 */
-    if (mmal_port_parameter_set_boolean(camera_video_port, MMAL_PARAMETER_CAPTURE, 1) != MMAL_SUCCESS) {
+
+
+	if (mmal_port_parameter_set_boolean(camera_video_port, MMAL_PARAMETER_CAPTURE, 1) != MMAL_SUCCESS) {
         printf("%s: Failed to start capture\n", __func__);
     }
 

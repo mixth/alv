@@ -54,7 +54,7 @@ class Controller : public Worker
 					}
 				}
 			}
-			else if (follow_result == 2 && from_another == 1) // both agree on straight
+			else if (*follow_result == 2 && from_another == 1) // both agree on straight
 			{
 				cout << "Both agree on straight" << endl;
 				finalResult = 2;
@@ -67,11 +67,11 @@ class Controller : public Worker
 			
 			if (finalResult > 0)
 			{
-				if(*follow_result == 1) // decided to go left
+				if(finalResult == 1) // decided to go left
 				{
 					err = main_control(5);
 				}
-				else if(*follow_result == 3) // decided to go right
+				else if(finalResult == 3) // decided to go right
 				{
 					err = main_control(4);
 				}

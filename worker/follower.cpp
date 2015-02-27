@@ -16,14 +16,30 @@ public:
 class Follower : public Worker
 {
 	public:
-	Follower (Mat *_mask, int *_follow_result)
+	Follower (Mat *_mask, int *_follow_result, int *_has_controller, int *_left_right)
 	{
 		mask = _mask;
 		follow_result = _follow_result;
+		has_controller = _has_controller;
+		left_right = _left_right;
 		line_x = HEIGHT / 2;
 		readRefImages();
-		lowerBound = WIDTH/4;
-		upperBound = WIDTH/3 * 2;
+		
+		// Since we are using only two Raspi, left one's upperBound = 1, right one's lowerBound = 0
+		if (*left_right == 0)
+		{
+			lowerBound = WIDTH/2;
+			upperBound = WIDTH;
+		}
+		else if ()left_right == 1)
+		{
+			lowerBound = 0;
+			upperBound = WIDTH/2;
+		}
+		else
+		{
+			cout << "error getting left_right variable" << endl;
+		}
 	}
 	void operator () ()
 	{
@@ -41,11 +57,14 @@ class Follower : public Worker
 	private:
 	Mat *mask;
 	int *follow_result;
+	int *has_controller;
+	int *left_right;
 	int line_x;
 	const int static reasonableArea = 2500;
 	const double static matchingRatio = 0.56;
 	float lowerBound, upperBound;
 	Symbol symbols;
+	
 	int readRefImages() {
 		symbols.img = imread("invader-space-invert-resize.jpg", CV_LOAD_IMAGE_GRAYSCALE);
 		if (!symbols.img.data)
@@ -198,22 +217,22 @@ class Follower : public Worker
 
 						diff = countNonZero(diffImg);
 						double matching = (double) 1 - ((double) diff / (double) 40000);
-						cout << "matching = " << matching << endl;
+						//cout << "matching = " << matching << endl;
 						if (matching >= matchingRatio) {
 							cout << "Matched" << endl;
 							if (center.x <= lowerBound)
 							{
-								cout << "Follower decided to go left" << endl;
+								//cout << "Follower decided to go left" << endl;
 								expectedOut = 1;
 							}
 							else if (center.x >= upperBound)
 							{
-								cout << "Follower decided to go right" << endl;
+								//cout << "Follower decided to go right" << endl;
 								expectedOut = 3;
 							}
 							else
 							{
-								cout << "Follower decided to go straight" << endl;
+								//cout << "Follower decided to go straight" << endl;
 								expectedOut = 2;
 							}
 						}
@@ -226,6 +245,30 @@ class Follower : public Worker
 		}
 
 		(*follow_result) = expectedOut;
+		
+		// if this node doesn't has_controller, it will need to send out the result
+		if (!has_controller)
+		{
+			int send = 0;
+			switch (expectedOut)
+			{
+				case 0:
+					send = 3;
+					break;
+				case 2:
+					send = 1;
+					break;
+				case 1:
+					send = 2;
+					break;
+				case 3:
+					send = 2;
+					break;
+				default:
+					send = 0;
+			}
+			sendOutput(send);
+		}
 		/*
 		if (expectedOut == 0)
 		{

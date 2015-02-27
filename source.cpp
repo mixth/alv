@@ -2,6 +2,7 @@
 #include </usr/include/opencv2/core/core.hpp>
 #include </usr/include/opencv2/opencv.hpp>
 #include <iostream>
+#include <fstream>
 
 #include <boost/thread.hpp>
 #include "source.h"
@@ -23,6 +24,8 @@ static bool _setup = true;
 int GRAY_MIN;
 int avoid_result = -1;
 int follow_result = -1;
+int has_controller = -1;
+int left_right = -1;
 int GRAY_MAX = 255;
 
 Mat src, mask;
@@ -32,8 +35,8 @@ boost::mutex
 Worker::_locker;
 
 Avoider avoid(&mask, &src, &avoid_result, &GRAY_MIN, &GRAY_MAX, &angle);
-Follower follow(&mask, &follow_result);
-Controller control(&avoid_result, &follow_result);
+Follower follow(&mask, &follow_result, &has_controller, &left_right);
+Controller control(&avoid_result, &follow_result, &left_right);
 
 int setup(Mat src){
 	int a[256] = {};
@@ -58,6 +61,10 @@ int setup(Mat src){
 	printf("angle : %.2f\n", angle);
 	printf("GRAY_MIN : %d\n", GRAY_MIN);
 
+	// Get value from config file
+	ifstream infile("follower_config");
+	infile >> has_controller >> left_right;
+	
 	return angle;
 }
 
@@ -71,8 +78,13 @@ int MyProject(IplImage *y){
 		if (setup(mask) == -200)
 			return -1;
 		//boost::thread avoidThread (avoid);
-		boost::thread controlThread (control);
+		
+		if (has_controller == 1)
+		{
+			boost::thread controlThread (control);
+		}
+		
 		boost::thread followThread (follow);
-		cout << "fired avoidThread, controlThread, followThread" << endl;
+		cout << "fired all threads" << endl;
 	}
 }

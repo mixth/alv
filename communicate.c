@@ -2,17 +2,17 @@
 #include "source.h"
 
 /********************************************
-*       input pin                           *
-* MSB >> 7     0 << LSB                     *
-*		                            * 
-*       output pin                          *
-* MSB >> 2     3 << LSB	                    *
-* 				            *
-* 00 - error state                          *
-* 01 - stright                              *
-* 10 - right/left (depends on camera setup) *
-* 11 - unknown result                       *
-* 					    *
+*       input pin
+* MSB >> 7     0 << LSB
+*
+*       output pin
+* MSB >> 2     3 << LSB
+* 
+* 00 - error state
+* 01 - straight
+* 10 - right/left (depends on camera setup)
+* 11 - unknown result
+*
 ********************************************/
 
 static int _setup = 1;

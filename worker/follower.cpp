@@ -24,25 +24,28 @@ class Follower : public Worker
 		left_right = _left_right;
 		line_x = HEIGHT / 2;
 		readRefImages();
-		
-		// Since we are using only two Raspi, left one's upperBound = 1, right one's lowerBound = 0
-		if (*left_right == 0)
-		{
-			lowerBound = WIDTH/2;
-			upperBound = WIDTH;
-		}
-		else if (*left_right == 1)
-		{
-			lowerBound = 0;
-			upperBound = WIDTH/2;
-		}
-		else
-		{
-			cout << "error getting left_right variable" << endl;
-		}
 	}
 	void operator () ()
 	{
+		if (_setup)
+		{
+			// Since we are using only two Raspi, left one's upperBound = 1, right one's lowerBound = 0
+			if (*left_right == 0)
+			{
+				lowerBound = WIDTH/2;
+				upperBound = WIDTH;
+			}
+			else if (*left_right == 1)
+			{
+				lowerBound = 0;
+				upperBound = WIDTH/2;
+			}
+			else
+			{
+				cout << "error getting left_right variable" << endl;
+			}
+			_setup = false;
+		}
 		while (true)
 		{
 			_locker.lock();
@@ -60,6 +63,7 @@ class Follower : public Worker
 	int *has_controller;
 	int *left_right;
 	int line_x;
+	static bool _setup = true;
 	const int static reasonableArea = 2500;
 	const double static matchingRatio = 0.56;
 	float lowerBound, upperBound;

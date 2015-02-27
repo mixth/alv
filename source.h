@@ -10,6 +10,8 @@ extern "C" {
 	void thresh_callback();
 	int main_control(int input);
 	float main_compass();
+	int readInput ();
+	int sendOutput (int output);
 #ifdef __cplusplus
 }
 #endif

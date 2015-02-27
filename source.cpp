@@ -65,6 +65,23 @@ int setup(Mat src){
 	ifstream infile("follower_config");
 	infile >> has_controller >> left_right;
 	
+	if (has_controller)
+	{
+		cout << "This node has the controller thread" << endl;
+	}
+	
+	if (left_right == 0)
+	{
+		cout << "This node connects with left camera" << endl;
+	}
+	else if (left_right == 1)
+	{
+		cout << "This node connects with right camera" << endl;
+	}
+	else
+	{
+		cout << "Error left_right value" << endl;
+	}
 	return angle;
 }
 

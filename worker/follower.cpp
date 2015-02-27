@@ -31,7 +31,7 @@ class Follower : public Worker
 			lowerBound = WIDTH/2;
 			upperBound = WIDTH;
 		}
-		else if ()left_right == 1)
+		else if (left_right == 1)
 		{
 			lowerBound = 0;
 			upperBound = WIDTH/2;

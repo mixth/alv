@@ -18,6 +18,7 @@ class Follower : public Worker
 	public:
 	Follower (Mat *_mask, int *_follow_result, int *_has_controller, int *_left_right)
 	{
+		_setup = true;
 		mask = _mask;
 		follow_result = _follow_result;
 		has_controller = _has_controller;
@@ -63,7 +64,7 @@ class Follower : public Worker
 	int *has_controller;
 	int *left_right;
 	int line_x;
-	static bool _setup = true;
+	bool _setup;
 	const int static reasonableArea = 2500;
 	const double static matchingRatio = 0.56;
 	float lowerBound, upperBound;

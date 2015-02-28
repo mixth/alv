@@ -21,14 +21,15 @@ class Controller : public Worker
 		{
 			int from_another = readInput();
 			int finalResult = 0;
+			cout << "(" << *follow_result << ", " << from_another << ")" << endl;
 			if (from_another == 0 || from_another == 3)
 			{
-				cout << "No result from another" << endl;
+				//cout << "No result from another" << endl;
 				finalResult = *follow_result;
 			}
 			else if (follow_result == 0)
 			{
-				cout << "No result from this one" << endl;
+				//cout << "No result from this one" << endl;
 				if (*left_right == 0)
 				{
 					// If this node connects with the left camera
@@ -56,12 +57,12 @@ class Controller : public Worker
 			}
 			else if (*follow_result == 2 && from_another == 1) // both agree on straight
 			{
-				cout << "Both agree on straight" << endl;
+				//cout << "Both agree on straight" << endl;
 				finalResult = 2;
 			}
 			else // if there is some unexpected case, we will be confidence on main compute
 			{
-				cout << "Unexpected" << endl;
+				//cout << "Unexpected" << endl;
 				finalResult = *follow_result;
 			}
 			

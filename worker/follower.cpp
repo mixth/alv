@@ -252,7 +252,7 @@ class Follower : public Worker
 		(*follow_result) = expectedOut;
 		
 		// if this node doesn't has_controller, it will need to send out the result
-		if (!has_controller)
+		if (!(*has_controller))
 		{
 			int send = 0;
 			switch (expectedOut)

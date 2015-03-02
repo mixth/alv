@@ -20,7 +20,10 @@ static int _setup = 0;
 int communicate_setup () 
 {
 	if (wiringPiSetup() == -1)
+	{
+		printf("wiringPiSetup() error!\n");
 		return -1;
+	}
 		
 	// For input communication
 	pinMode(7, INPUT);
@@ -30,7 +33,9 @@ int communicate_setup ()
 	pinMode(2, OUTPUT);
 	pinMode(3, OUTPUT);
 	
+	printf("communication setup is completed\n");
 	_setup = 1;
+	return 0;
 }
 
 int readInput ()
@@ -58,7 +63,7 @@ int sendOutput (int output)
 {
 	if (!_setup)
 	{
-			if (setup() == -1)
+			if (communicate_setup() == -1)
 				return -1;
 	}
 	
@@ -80,8 +85,9 @@ int sendOutput (int output)
 				// Error state or else
 				digitalWrite(2, 0);
 				digitalWrite(3, 0);
-				break;			
-	}
+				break;		
 	
+	}
+	printf("send out : %d\n", output);	
 	return 0;
 }

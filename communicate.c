@@ -15,7 +15,7 @@
 *
 ********************************************/
 
-static int _setup = 1;
+static int _setup = 0;
 
 int communicate_setup () 
 {

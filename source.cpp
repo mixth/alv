@@ -25,9 +25,9 @@ int GRAY_MIN;
 int avoid_result = -1;
 int follow_result = -1;
 int has_controller = -1;
-float left_right = -1;
+int left_right = -1;
 float left_const = -1;
-int right_const = -1;
+float right_const = -1;
 int GRAY_MAX = 255;
 
 Mat src, mask;

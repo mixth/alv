@@ -25,7 +25,9 @@ int GRAY_MIN;
 int avoid_result = -1;
 int follow_result = -1;
 int has_controller = -1;
-int left_right = -1;
+float left_right = -1;
+float left_const = -1;
+int right_const = -1;
 int GRAY_MAX = 255;
 
 Mat src, mask;
@@ -35,7 +37,7 @@ boost::mutex
 Worker::_locker;
 
 Avoider avoid(&mask, &src, &avoid_result, &GRAY_MIN, &GRAY_MAX, &angle);
-Follower follow(&mask, &follow_result, &has_controller, &left_right);
+Follower follow(&mask, &follow_result, &has_controller, &left_right, &left_const, &right_const);
 Controller control(&avoid_result, &follow_result, &left_right);
 
 int setup(Mat src){
@@ -64,6 +66,7 @@ int setup(Mat src){
 	// Get value from config file
 	ifstream infile("follower_config");
 	infile >> has_controller >> left_right;
+	infile >> left_const >> right_const;
 	
 	if (has_controller)
 	{

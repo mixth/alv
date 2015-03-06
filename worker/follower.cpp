@@ -16,13 +16,15 @@ public:
 class Follower : public Worker
 {
 	public:
-	Follower (Mat *_mask, int *_follow_result, int *_has_controller, int *_left_right)
+	Follower (Mat *_mask, int *_follow_result, int *_has_controller, int *_left_right, *_left_const, *_right_const)
 	{
 		_setup = true;
 		mask = _mask;
 		follow_result = _follow_result;
 		has_controller = _has_controller;
 		left_right = _left_right;
+		left_const = _left_const;
+		right_const = _right_const;
 		line_x = HEIGHT / 2;
 		readRefImages();
 	}
@@ -33,13 +35,13 @@ class Follower : public Worker
 			// Since we are using only two Raspi, left one's upperBound = 1, right one's lowerBound = 0
 			if (*left_right == 0)
 			{
-				lowerBound = WIDTH/2;
+				lowerBound = WIDTH * (*left_const);
 				upperBound = WIDTH;
 			}
 			else if (*left_right == 1)
 			{
 				lowerBound = 0;
-				upperBound = WIDTH/2;
+				upperBound = WIDTH * (*right_const);
 			}
 			else
 			{
@@ -63,6 +65,7 @@ class Follower : public Worker
 	int *follow_result;
 	int *has_controller;
 	int *left_right;
+	float *right_const, *left_const;
 	int line_x;
 	bool _setup;
 	const int static reasonableArea = 2500;

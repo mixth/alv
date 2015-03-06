@@ -16,7 +16,7 @@ public:
 class Follower : public Worker
 {
 	public:
-	Follower (Mat *_mask, int *_follow_result, int *_has_controller, int *_left_right, *_left_const, *_right_const)
+	Follower (Mat *_mask, int *_follow_result, int *_has_controller, int *_left_right, float *_left_const, float *_right_const)
 	{
 		_setup = true;
 		mask = _mask;

@@ -27,7 +27,7 @@ class Controller : public Worker
 				//cout << "No result from another" << endl;
 				finalResult = *follow_result;
 			}
-			else if (follow_result == 0)
+			else if (*follow_result == 0)
 			{
 				//cout << "No result from this one" << endl;
 				if (*left_right == 0)

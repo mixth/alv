@@ -8,7 +8,7 @@ extern "C" {
 #endif
 	int MyProject(IplImage *rgb);
 	void thresh_callback();
-	int main_control(int input);
+	int main_control(int input, int mode);
 	float main_compass();
 	int readInput ();
 	int sendOutput (int output);

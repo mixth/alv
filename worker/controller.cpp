@@ -103,7 +103,7 @@ class Controller : public Worker
 						err = main_control(1, 1);
 					}				
 				}
-				else
+				else if (notFoundCount < 20)
 				{
 					err = main_control(1, 1);
 				}

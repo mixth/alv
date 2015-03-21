@@ -96,18 +96,27 @@ int main_control(int input, int mode){
 				digitalWrite(1,1);
 				digitalWrite(5,1);
 				delay(50);
+				digitalWrite(1, 0);
+				digitalWrite(5, 0);
+				delay(50);
 				break;
 					case 4:
 				printf("right\n");
 				digitalWrite(1,0);
 				digitalWrite(5,1);
 				delay(250);
+				digitalWrite(1, 0);
+				digitalWrite(5, 0);
+				delay(50);
 				break;
 					case 5:
 				printf("left\n");
 				digitalWrite(1,1);
 				digitalWrite(5,0);
 				delay(250);
+				digitalWrite(1, 0);
+				digitalWrite(5, 0);
+				delay(50);
 				break;
 					case 6:
 				printf("stop\n");

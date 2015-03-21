@@ -8,12 +8,14 @@ class Controller : public Worker
 		avoid_result = _avoid_result;
 		follow_result = _follow_result;
 		left_right = _left_right;
+		lastAction = 0;
+		notFoundCount = 0;
 	}
 	
 	void operator () ()
 	{
-		// readInput() returns: 0 - err, 1 - straight, 2 - left/right, 3 - unknown
 		// follow_result has a value of: 0 - unknown, 1 - left, 2 - straight, 3 - right
+		// readInput() returns: 0 - err, 1 - straight, 2 - left/right, 3 - unknown
 		
 		// FinalResult has a value for: 0 - unknown, 1 - left, 2 - straight, 3 - right
 		int err = 0;
@@ -68,18 +70,44 @@ class Controller : public Worker
 			
 			if (finalResult > 0)
 			{
+				notFoundCount = 0;
+				lastAction = finalResult;
 				if(finalResult == 1) // decided to go left
 				{
-					err = main_control(5);
+					err = main_control(5, 0);
 				}
 				else if(finalResult == 3) // decided to go right
 				{
-					err = main_control(4);
+					err = main_control(4, 0);
 				}
 				else // Go straight
 				{
-					err = main_control(1);
+					err = main_control(1, 0);
 				}
+			}
+			else
+			{
+				// cannot find the object, continue from what we have left
+				if (notFoundCount < 3)
+				{
+					if(lastAction == 1) // decided to go left
+					{
+						err = main_control(5, 1);
+					}
+					else if(lastAction == 3) // decided to go right
+					{
+						err = main_control(4, 1);
+					}
+					else // Go straight
+					{
+						err = main_control(1, 1);
+					}				
+				}
+				else
+				{
+					err = main_control(1, 1);
+				}
+				notFoundCount++;
 			}
 			
 			if (err < 0)
@@ -131,4 +159,6 @@ class Controller : public Worker
 	int *avoid_result;
 	int *follow_result;
 	int *left_right;
+	int notFoundCount;
+	int lastAction;
 };
